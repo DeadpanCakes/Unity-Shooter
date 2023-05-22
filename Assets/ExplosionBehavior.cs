@@ -15,10 +15,10 @@ public class ExplosionBehavior : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        secondsAlive += Time.fixedDeltaTime;
+        secondsAlive += Time.deltaTime;
         float duration = secondsAlive / lifespan;
         Vector3 maxScale = Vector3.one * 5;
-        transform.localScale = Vector3.Lerp(Vector3.zero, maxScale, duration);
+        transform.localScale = Vector3.LerpUnclamped(Vector3.zero, maxScale, duration);
         if (secondsAlive > lifespan)
         {
             Destroy(gameObject);

@@ -19,14 +19,17 @@ public class Health : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
-        if (currentHealth <= 0)
+        if (currentHealth > 0)
         {
-            if (deathPrefab != null)
+            currentHealth -= damage;
+            if (currentHealth <= 0)
             {
-                Instantiate(deathPrefab, transform.position, transform.rotation);
+                if (deathPrefab != null)
+                {
+                    Instantiate(deathPrefab, transform.position, transform.rotation);
+                }
+                Destroy(gameObject);
             }
-            Destroy(gameObject);
         }
     }
 

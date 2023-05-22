@@ -5,16 +5,14 @@ using UnityEngine;
 public class PlayerBehavior : MonoBehaviour
 {
     public float maxSpeed;
-    public GameObject bulletPrefab;
-    public float secondsBetweenShots;
-
-    float secondsSinceLastShot;
+    public List<WeaponBehavior> weapons = new List<WeaponBehavior>();
+    public int currentWeapon;
 
     // Start is called before the first frame update
     void Start()
     {
-        secondsSinceLastShot = secondsBetweenShots;
         References.pc = gameObject;
+        currentWeapon = 0;
     }
 
     // Update is called once per frame
@@ -35,12 +33,23 @@ public class PlayerBehavior : MonoBehaviour
         transform.LookAt(orientation);
 
         //Firing
-        secondsSinceLastShot += Time.deltaTime;
-
-        if (secondsSinceLastShot >= secondsBetweenShots && Input.GetButton("Fire1"))
+        if (Input.GetButton("Fire1"))
         {
-            Instantiate(bulletPrefab, transform.position + transform.forward, transform.rotation);
-            secondsSinceLastShot = 0;
+            //Trigger Fire On Weapon
+            weapons[currentWeapon].Fire(cursorPositon);
+        }
+
+        //Cycle Weapons
+        if (Input.GetButton("Fire2"))
+        {
+            if (currentWeapon < weapons.Count)
+            {
+                currentWeapon++;
+            }
+            else
+            {
+                currentWeapon = 0;
+            }
         }
     }
 }
